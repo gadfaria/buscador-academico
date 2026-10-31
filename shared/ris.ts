@@ -1,4 +1,4 @@
-// Importação manual: cobre bases sem API aberta (SciELO, Google Acadêmico), que exportam RIS.
+// Manual import: covers databases without an open API (SciELO, Google Scholar) that export RIS files.
 import { cleanText, convertType } from "./text.ts";
 import type { Work } from "./types.ts";
 

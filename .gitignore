@@ -1,5 +1,6 @@
 node_modules
 dist
 .env
-# Contém métricas de terceiros (JCR, CiteScore): ver docs/ENGENHARIA-REVERSA.md
+.DS_Store
+# Contains third-party metrics (JCR, CiteScore): see docs/ENGENHARIA-REVERSA.md
 server/data/fatores.json

@@ -4,12 +4,12 @@ export type PlatformId =
 
 export interface Work {
   id: string;
-  platform: string; // rótulo exibido; "Importado (RIS)" para importações manuais
+  platform: string; // display label; "Importado (RIS)" for manual imports
   year: string;
   type: string;
   title: string;
   keywords: string;
-  authors: string; // separados por ";"
+  authors: string; // separated by ";"
   venue: string;
   issn: string;
   program: string;

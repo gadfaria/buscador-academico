@@ -1,4 +1,4 @@
-// Smoke test contra as APIs reais: npx tsx tests/connectors.live.ts
+// Smoke test against the real APIs: npx tsx tests/connectors.live.ts
 import { connectors } from "../server/connectors.ts";
 
 for (const c of connectors) {

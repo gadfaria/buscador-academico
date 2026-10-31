@@ -89,7 +89,7 @@ export function Selection({ project, update, onNext }: { project: Project; updat
                     <TableCell className="min-w-72 whitespace-normal font-medium">{row.title}</TableCell>
                     {criteria.map((c) => (
                       <TableCell key={c.index}>
-                        {/* Select nativo de propósito: até 1.000 Radix Selects por página pesariam na tela. */}
+                        {/* Native select on purpose: up to 1,000 Radix Selects per page would slow the screen down. */}
                         <select className="h-11 w-full rounded-md border border-input bg-card px-2 text-base" aria-label={`${c.name}: ${row.title}`}
                           value={row.scores[evaluator][c.index]} onChange={(e) => setScore(row.id, c.index, Number(e.target.value))}>
                           <option value={0}>Sem nota</option>

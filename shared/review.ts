@@ -1,4 +1,4 @@
-// Port das regras das abas Resultados, Tratamento e Seleção Qualificada.
+// Port of the rules from the Resultados, Tratamento and Seleção Qualificada sheets.
 import type { Metrics, ScreeningRow, Work } from "./types.ts";
 
 function normalizeTitle(title: string): string {
@@ -6,9 +6,9 @@ function normalizeTitle(title: string): string {
 }
 
 /**
- * Duplicados_btn: mantém a primeira ocorrência. A planilha compara só o título (exato, sem distinguir
- * caixa); aqui ignora também acentos e pontuação e compara o DOI, pois as bases grafam o mesmo título
- * de formas diferentes. Trabalhos sem título não são tratados como duplicados entre si.
+ * Duplicados_btn: keeps the first occurrence. The spreadsheet only compares the exact, case-insensitive
+ * title; this also ignores accents and punctuation and compares DOIs, because databases spell the same
+ * title differently. Untitled works are not treated as duplicates of each other.
  */
 export function dedupe(works: Work[]): { works: Work[]; removed: number } {
   const seen = new Set<string>();
@@ -22,13 +22,13 @@ export function dedupe(works: Work[]): { works: Work[]; removed: number } {
   return { works: kept, removed: works.length - kept.length };
 }
 
-/** Fórmula de Tratamento: ocorrências do termo em Título & Palavras-chave, sem separador e sem distinguir caixa. */
+/** Tratamento formula: case-insensitive term occurrences in title + keywords, joined with no separator. */
 export function countTerm(work: Pick<Work, "title" | "keywords">, term: string): number {
   if (!term) return 0;
   return (work.title + work.keywords).toUpperCase().split(term.toUpperCase()).length - 1;
 }
 
-/** Periódicos só recebem métricas se forem artigos fora das bases de teses (Revisao_Transportar). */
+/** Only articles outside the thesis databases receive journal metrics (Revisao_Transportar). */
 export function eligibleForMetrics(work: Pick<Work, "platform" | "type">): boolean {
   return !isThesisPlatform(work.platform) && work.type === "Artigo";
 }
@@ -48,11 +48,11 @@ function parseThreshold(value: string): number | null {
 }
 
 /**
- * Revisao_Filtrar. A planilha codifica as mesmas regras gravando 999/A0 (passa) e 0/D0 (reprova) nas
- * células antes de aplicar o AutoFiltro:
- * - teses e não-artigos passam sempre;
- * - artigo com valor em algum filtro ativo: filtros ativos sem valor no artigo são ignorados;
- * - artigo sem valor em nenhum filtro ativo: reprova.
+ * Revisao_Filtrar. The spreadsheet encodes these rules by writing 999/A0 (pass) and 0/D0 (fail) into the
+ * cells before applying its AutoFilter:
+ * - theses and non-articles always pass;
+ * - an article with a value for some active filter ignores active filters it has no value for;
+ * - an article with no value for any active filter fails.
  */
 export function passesMetricFilters(row: Pick<Work, "platform" | "type"> & { metrics: Metrics }, filters: MetricFilters): boolean {
   const numeric = [
@@ -77,7 +77,7 @@ function roundOne(value: number): number {
   return Math.sign(value) * Math.round((Math.abs(value) + Number.EPSILON) * 10) / 10;
 }
 
-/** Média e desvio-padrão populacional (STDEVP) de todas as notas de todos os avaliadores, com 1 casa. */
+/** Mean and population standard deviation (STDEVP) of all scores from all evaluators, to 1 decimal place. */
 export function scoreSummary(scores: number[]): { mean: number | null; sd: number | null } {
   if (scores.length === 0) return { mean: null, sd: null };
   const mean = scores.reduce((sum, v) => sum + v, 0) / scores.length;

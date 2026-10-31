@@ -1,5 +1,5 @@
-// Equivalente a Public Sub http(): timeouts e uma nova tentativa. Sem desabilitar a checagem TLS, como
-// fazia a planilha, e com intervalo mínimo por host para respeitar os limites das APIs.
+// Equivalent of Public Sub http(): timeouts and one retry. Unlike the spreadsheet, it keeps TLS validation
+// on, and it enforces a minimum interval per host to respect API rate limits.
 const MIN_INTERVAL_MS: Record<string, number> = { "eutils.ncbi.nlm.nih.gov": 350 };
 const DEFAULT_INTERVAL_MS = 150;
 const nextSlot = new Map<string, number>();

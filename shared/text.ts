@@ -1,7 +1,7 @@
-// Port de Filtra e Tipologia_Converte (a_Codigos).
-// O VBA fazia ~300 substituições à mão porque lia a resposta como texto cru. Aqui as respostas já vêm
-// em UTF-8, então basta decodificar entidades e corrigir mojibake. As trocas de grego/cirílico por
-// letras parecidas (α → a, б → 6) NÃO foram portadas: elas corrompiam os dados.
+// Port of Filtra and Tipologia_Converte (a_Codigos).
+// The VBA did ~300 manual replacements because it read responses as raw text. Responses here are already
+// UTF-8, so decoding entities and fixing mojibake is enough. Its swaps of Greek/Cyrillic letters for
+// lookalikes (α → a, б → 6) were NOT ported: they corrupted the data.
 
 const NAMED: Record<string, string> = {
   amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ", deg: "º", ordm: "º", ordf: "ª", reg: "®", acute: "´",

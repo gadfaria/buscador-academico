@@ -57,7 +57,7 @@ const capes: Connector = {
   },
 } as Connector & { search(query: string, pagina: number): Promise<any> };
 
-/** Capes_Resumos: mesmos ids de campo que a planilha lê. */
+/** Capes_Resumos: same field ids the spreadsheet reads. */
 export function parseSucupira(html: string): Partial<Work> {
   const $ = cheerio.load(html);
   return {
@@ -265,7 +265,7 @@ export function parseEducapesCount(html: string): number {
   return Number(cheerio.load(html)(".paginacao").first().text().match(/de\s+(\d+)/)?.[1] ?? 0);
 }
 
-/** O DSpace mistura pessoas e instituições no mesmo campo e anexa o ano de nascimento: "Lima, Ana, 1962-". */
+/** DSpace mixes people and institutions in one field and appends birth years: "Lima, Ana, 1962-". */
 function people(field: string): string {
   return field
     .split(";")
@@ -322,31 +322,37 @@ const educapes: Connector = {
   },
 };
 
+const BDTD_FIELDS = ["title", "authors", "formats", "publicationDates", "subjects", "summary", "institutions", "id"];
+
 const bdtdUrl = (query: string, page: number, limit: number) =>
   `https://bdtd.ibict.br/vufind/api/v1/search?lookfor=${encodeURIComponent(normalizeQuery(query))}&type=AllFields&page=${page}&limit=${limit}` +
-  ["title", "authors", "formats", "publishDates", "subjects", "summary", "institutions", "id"].map((f) => `&field[]=${f}`).join("");
+  BDTD_FIELDS.map((f) => `&field[]=${f}`).join("");
+
+/** BDTD's Swagger documents authors.main, while VuFind usually returns authors.primary. Accepts both. */
+export function parseBdtd(data: any): Draft[] {
+  return list(data.records).map((r: any) => ({
+    title: cleanText(r.title),
+    authors: joinClean(Object.keys(r.authors?.primary ?? r.authors?.main ?? {})),
+    advisor: joinClean(Object.keys(r.authors?.secondary ?? {})),
+    venue: cleanText(list(r.institutions)[0]).toUpperCase(),
+    year: year(list(r.publicationDates)[0]),
+    type: convertType(list(r.formats)[0] ?? ""),
+    keywords: joinClean(list(r.subjects).flat()),
+    abstract: cleanText(list(r.summary)[0]),
+    link: `https://bdtd.ibict.br/vufind/Record/${r.id}`,
+  }));
+}
 
 const bdtd: Connector = {
   id: "bdtd",
   label: "BDTD",
   pageSize: 100,
-  note: "API VuFind; estava fora do ar nos testes e o conector não foi validado.",
+  note: "Índice Solr da BDTD fora do ar em 31/10/2026; conector conferido só pela especificação da API.",
   async count(query) {
     return (await getJson(bdtdUrl(query, 1, 0))).resultCount ?? 0;
   },
   async page(query, page) {
-    const data = await getJson(bdtdUrl(query, page, 100));
-    return list(data.records).map((r: any) => ({
-      title: cleanText(r.title),
-      authors: joinClean(Object.keys(r.authors?.primary ?? {})),
-      advisor: joinClean(Object.keys(r.authors?.secondary ?? {})),
-      venue: cleanText(list(r.institutions)[0]).toUpperCase(),
-      year: year(list(r.publishDates)[0]),
-      type: convertType(list(r.formats)[0] ?? ""),
-      keywords: joinClean(list(r.subjects).flat()),
-      abstract: cleanText(list(r.summary)[0]),
-      link: `https://bdtd.ibict.br/vufind/Record/${r.id}`,
-    }));
+    return parseBdtd(await getJson(bdtdUrl(query, page, 100)));
   },
 };
 

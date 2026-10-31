@@ -3,8 +3,8 @@
 
 @custom-variant dark (@media (prefers-color-scheme: dark));
 
-/* Tema acadêmico: azul-marinho, papel creme e bordô como cor de destaque.
-   Textos seguem contraste AA ou maior; tamanho-base maior que o padrão para facilitar a leitura. */
+/* Academic theme: navy, cream paper and burgundy as the accent color.
+   Text meets AA contrast or better; the base size is larger than the default for easier reading. */
 :root {
   --radius: 0.5rem;
   --background: #f7f4ec;

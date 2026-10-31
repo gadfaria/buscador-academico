@@ -10,7 +10,7 @@ type Pending = Options & { resolve: (value: boolean) => void };
 
 let show: ((pending: Pending) => void) | undefined;
 
-/** Substitui window.confirm: o botão diz o que vai acontecer ("Apagar tudo"), não apenas "OK". */
+/** Replaces window.confirm: the button says what will happen ("Apagar resultados"), not just "OK". */
 export const confirm = (options: Options) =>
   new Promise<boolean>((resolve) => show?.({ ...options, resolve }));
 

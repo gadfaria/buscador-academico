@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Extrai a aba BD_Fatores do .xlsm para server/data/fatores.json.
+"""Extract the BD_Fatores sheet from the .xlsm into server/data/fatores.json.
 
-Uso: pip install openpyxl && python3 scripts/extract_fatores.py "BUSCAd.xlsm"
+Usage: pip install openpyxl && python3 scripts/extract_fatores.py "BUSCAd.xlsm"
 """
 import json
 import sys

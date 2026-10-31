@@ -1,10 +1,10 @@
-// Port de n_Analise: Buscar_Autores, Buscar_Orientadores, Buscar_Periodicos, Buscar_Anos, Gerar_Nuvem.
+// Port of n_Analise: Buscar_Autores, Buscar_Orientadores, Buscar_Periodicos, Buscar_Anos, Gerar_Nuvem.
 import { countTerm } from "./review.ts";
 import type { Work } from "./types.ts";
 
 export interface Tally { label: string; count: number }
 
-/** "Maria A. de Souza" ou "Souza, Maria A." viram "SOUZA, M. A. D." como na planilha. */
+/** "Maria A. de Souza" becomes "SOUZA, M. A. D." and "Souza, Maria A." becomes "SOUZA, M. A.", as in the spreadsheet. */
 export function normalizePerson(raw: string): string {
   let name = raw.trim().toUpperCase().replaceAll(".", "");
   const comma = name.indexOf(",");
@@ -49,7 +49,7 @@ export function termCloud(works: Pick<Work, "title" | "keywords">[], terms: stri
     .sort(byCount);
 }
 
-/** Texto para colar em geradores externos: termos compostos unidos por hífen, repetidos pela frequência. */
+/** Text to paste into external generators: multi-word terms are hyphenated and repeated by frequency. */
 export function cloudText(tallies: Tally[]): string {
   return tallies.flatMap((t) => Array(t.count).fill(t.label.replaceAll(" ", "-"))).join(" ");
 }

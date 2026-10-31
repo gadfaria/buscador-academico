@@ -1,4 +1,4 @@
-// Port de Qual_indice: busca exata por ISSN na coluna ISSN e, se não achar, na EISSN.
+// Port of Qual_indice: exact match on the ISSN column, then on EISSN if not found.
 import { readFile } from "node:fs/promises";
 import type { Metrics } from "../shared/types.ts";
 

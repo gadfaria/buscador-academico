@@ -13,7 +13,7 @@ app.onError((error, c) => {
 
 app.get("/api/platforms", (c) => c.json(platformInfo()));
 
-// Testar_Plataformas
+// Port of Testar_Plataformas
 app.get("/api/platforms/check", async (c) => {
   const active = connectors.filter((p) => p.enabled?.() ?? true);
   const results = await Promise.all(active.map(async (p) => {

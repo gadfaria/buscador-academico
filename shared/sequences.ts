@@ -1,6 +1,6 @@
-// Port de Gerar_Sequencias, Filtra_termo e Revisao_Carregar_Termos (a_Codigos, m_Revisao).
+// Port of Gerar_Sequencias, Filtra_termo and Revisao_Carregar_Termos (a_Codigos, m_Revisao).
 
-const MAX_GROUP = 10; // a planilha gera combinações de até 10 termos
+const MAX_GROUP = 10; // the spreadsheet generates combinations of up to 10 terms
 
 function parseTerm(line: string): string[] {
   return line.split(";").map((raw) => {
@@ -15,10 +15,10 @@ function binomial(n: number, k: number): number {
   return Math.round(result);
 }
 
-/** Quantas sequências serão geradas, sem gerá-las (evita travar a aba com muitos sinônimos). */
+/** How many sequences would be generated, without generating them (avoids freezing the tab with many synonyms). */
 export function countSequences(lines: string[]): number {
   const sizes = lines.map(parseTerm).filter((t) => t.length).map((t) => t.length);
-  // Soma dos produtos de cada subconjunto de tamanho k = polinômio simétrico elementar.
+  // Sum of the products of every subset of size k = elementary symmetric polynomial.
   const elementary = [1, ...Array(sizes.length).fill(0)] as number[];
   for (const size of sizes) {
     for (let k = sizes.length; k >= 1; k--) elementary[k] += elementary[k - 1] * size;
@@ -40,7 +40,7 @@ function* product(groups: string[][], index = 0): Generator<string[]> {
   }
 }
 
-/** Mesma ordem do VBA: dos grupos maiores para os menores, cada linha é um termo e ";" separa sinônimos. */
+/** Same order as the VBA: largest groups first. Each line is a term and ";" separates synonyms. */
 export function generateSequences(lines: string[]): string[] {
   const terms = lines.map(parseTerm).filter((t) => t.length);
   const output: string[] = [];
@@ -56,7 +56,7 @@ export function normalizeQuery(query: string): string {
   return query.replace(/[“”]/g, '"').replaceAll('""', '"').trim();
 }
 
-/** Termos únicos das sequências marcadas, até 20 (limite das colunas O:AH de Tratamento). */
+/** Unique terms from the given sequences, up to 20 (the limit of Tratamento columns O:AH). */
 export function extractTerms(sequences: string[], limit = 20): string[] {
   const terms: string[] = [];
   for (const sequence of sequences) {

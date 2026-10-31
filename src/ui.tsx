@@ -23,7 +23,7 @@ export const Empty = ({ children }: { children: ReactNode }) => (
   <p className="rounded-lg border border-dashed bg-card px-6 py-12 text-center text-muted-foreground">{children}</p>
 );
 
-/** Cabeçalho de cada etapa: diz em uma frase o que fazer ali. */
+/** Header of each step: says in one sentence what to do there. */
 export const PageIntro = ({ step, title, children }: { step?: number; title: string; children: ReactNode }) => (
   <div className="mb-5 max-w-3xl">
     <h2 className="text-2xl font-semibold">{step ? `Etapa ${step}: ` : ""}{title}</h2>
@@ -38,7 +38,7 @@ export function downloadFile(name: string, content: string, type: string) {
   URL.revokeObjectURL(url);
 }
 
-/** CSV com ";" e BOM: abre direto no Excel em pt-BR. */
+/** CSV with ";" and a BOM: opens directly in pt-BR Excel. */
 export function downloadCsv(name: string, header: string[], rows: unknown[][]) {
   const cell = (value: unknown) => `"${String(value ?? "").replaceAll('"', '""')}"`;
   const content = [header, ...rows].map((row) => row.map(cell).join(";")).join("\r\n");

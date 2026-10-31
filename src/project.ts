@@ -4,7 +4,7 @@ import type { PlatformId, ScreeningRow, Work } from "../shared/types.ts";
 
 export interface Sequence { id: string; text: string; selected: boolean; counts: Partial<Record<PlatformId, number | "ERRO">> }
 export interface LogEntry { at: string; action: string; sequence: string; total: number | null }
-export interface SelectionRow { id: string; title: string; scores: number[][] } // scores[avaliador][critério]; 0 = sem nota
+export interface SelectionRow { id: string; title: string; scores: number[][] } // scores[evaluator][criterion]; 0 = no score
 
 export interface Project {
   termLines: string;

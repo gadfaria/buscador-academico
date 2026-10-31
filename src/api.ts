@@ -12,7 +12,7 @@ async function post<T>(path: string, body: unknown, signal?: AbortSignal): Promi
   return data;
 }
 
-/** Tenta por alguns segundos: em desenvolvimento o Vite costuma subir antes da API. */
+/** Retries for a few seconds: in development Vite usually starts before the API. */
 export async function fetchPlatforms(attempts = 10): Promise<PlatformInfo[]> {
   const response = await fetch("/api/platforms").catch(() => null);
   if (response?.ok) return response.json();
