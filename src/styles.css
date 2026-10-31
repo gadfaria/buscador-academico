@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (@media (prefers-color-scheme: dark));
+
+/* Tema acadêmico: azul-marinho, papel creme e bordô como cor de destaque.
+   Textos seguem contraste AA ou maior; tamanho-base maior que o padrão para facilitar a leitura. */
+:root {
+  --radius: 0.5rem;
+  --background: #f7f4ec;
+  --foreground: #1c2430;
+  --card: #fffdf8;
+  --card-foreground: #1c2430;
+  --popover: #fffdf8;
+  --popover-foreground: #1c2430;
+  --primary: #1b365d;
+  --primary-foreground: #ffffff;
+  --secondary: #e9e3d3;
+  --secondary-foreground: #1c2430;
+  --muted: #ece6d8;
+  --muted-foreground: #47505c;
+  --accent: #dfe7f2;
+  --accent-foreground: #142a4a;
+  --destructive: #a3212c;
+  --border: #cfc8b6;
+  --input: #8a8473;
+  --ring: #1b365d;
+  --seal: #7a1f2e;
+  --bar: #1b365d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #141a24;
+    --foreground: #eef0f3;
+    --card: #1c2431;
+    --card-foreground: #eef0f3;
+    --popover: #1c2431;
+    --popover-foreground: #eef0f3;
+    --primary: #b4cbea;
+    --primary-foreground: #10203a;
+    --secondary: #2a3444;
+    --secondary-foreground: #eef0f3;
+    --muted: #252e3c;
+    --muted-foreground: #b6bdc8;
+    --accent: #2c3b54;
+    --accent-foreground: #eef0f3;
+    --destructive: #d9534f;
+    --border: #3a4556;
+    --input: #6e7a8c;
+    --ring: #b4cbea;
+    --seal: #eba9b2;
+    --bar: #8fb0dc;
+  }
+}
+
+@theme inline {
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+  --font-serif: "Source Serif 4 Variable", Georgia, serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-seal: var(--seal);
+  --color-bar: var(--bar);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+}
+
+@layer base {
+  html { font-size: 17px; }
+  * { @apply border-border; }
+  body { @apply bg-background font-sans text-foreground antialiased; line-height: 1.5; }
+  h1, h2, h3 { @apply font-serif; }
+  button:not(:disabled), [role="tab"], [role="checkbox"], summary { cursor: pointer; }
+}
